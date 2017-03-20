@@ -13,6 +13,8 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
+        <gdb_signals>
+        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
@@ -25,8 +27,13 @@
       <runprofile version="9">
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -p 10 -c 10 -i 100000</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 1000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 100000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 1000000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 10000 -p 10</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -b 1000 -c 10 -i 10000 -p 10</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

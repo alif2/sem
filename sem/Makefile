@@ -48,7 +48,7 @@
 MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
-
+CXXFLAGS = -lrt
 
 # build
 build: .build-post
