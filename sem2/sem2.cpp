@@ -5,58 +5,47 @@
 #include <pthread.h>
 #include <stack>
 #include <unistd.h>
+#include <ctime>
+#include "monitor.h"
 
 using namespace std;
 
-sem_t mutex, empty, full;
-stack<char> buffer;
-int items;
+monitor *mon;
+
+unsigned char randChar() {
+    srand(time(NULL));
+    
+    int i = rand() % 57 + 65;
+    while(i > 90 && i < 97) {
+        i = rand() % 57 + 65;
+    }
+    
+    return (unsigned char) i;
+}
 
 void *producer(void *args) {
-    char push = 'X';
     unsigned long id = pthread_self();
-    
+
     while(1) {
-        sem_wait(&empty);
+        char c = randChar();
+        mon->mon_insert(c);
         
-        if(items < 1) {
-            sem_post(&empty);
-            return NULL;
-        }
-        
-        sem_wait(&mutex);
- 
-        buffer.push(push);
-        items--;
-        
-        sem_post(&mutex);
-        sem_post(&full);
-        
-        printf("p:<%lu>, item: %c, at %d\n", id, push, 0);
+        printf("p:<%lu>, item: %c, at %d\n", id, c, 0);
     }
 }
 
 void *consumer(void *args) {
     unsigned long id = pthread_self();
-    
+
     while(1) {
-        if(buffer.size() < 1 && items < 1) return NULL;
+        char c = mon->mon_remove();
         
-        sem_wait(&full);
-        sem_wait(&mutex);
-        
-        char pop = buffer.top();
-        buffer.pop();
-        
-        sem_post(&mutex);
-        sem_post(&empty);
-        
-        printf("c:<%lu>, item: %c, at %d\n", id, pop, 0);
+        printf("c:<%lu>, item: %c, at %d\n", id, c, 0);
     }
 }
 
 int main(int argc, char** argv) {
-    int i, bufl, pt, ct;
+    int i, bufl, pt, ct, items;
     
     while((i = getopt(argc, argv, ":b:c:i:p:")) != -1) {
         switch(i) {
@@ -77,10 +66,8 @@ int main(int argc, char** argv) {
                 exit(0);
         }
     }
-    
-    sem_init(&mutex, 0, 1);
-    sem_init(&empty, 0, items);
-    sem_init(&full, 0, 0);
+
+    mon = new monitor(items);
     
     pthread_t produce[pt];
     pthread_t consume[ct];
@@ -102,10 +89,12 @@ int main(int argc, char** argv) {
     }
 
     // Wait for input to complete
-    while(items > 0);
-    while(buffer.size() > 0);
+    //while(items > 0);
+    //while(buffer.size() > 0);
     
     printf("Complete. Press Enter to quit\n");
     cin.get();
+    
+    delete(mon);
     return 0;
 }
