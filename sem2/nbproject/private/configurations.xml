@@ -26,17 +26,18 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 10000 -p 10</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 1000 -p 10</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 100 -c 1 -i 10000 -p 1</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -b 100 -c 1 -i 100000 -p 1</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -b 10 -c 1 -i 100000 -p 1</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -b 10 -c 1000 -i 100000 -p 1</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -b 100 -c 10 -i 100000 -p 10</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 100000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 100 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 1000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 5000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 2000 -p 10</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -b 1000 -c 10 -i 10000 -p 10</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -b 1000 -c 10 -i 100000 -p 10</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -b 1000 -c 10 -i 10000 -p 10</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
