@@ -6,10 +6,8 @@
 #include <stack>
 #include <unistd.h>
 
-using namespace std;
-
 sem_t mutex, empty, full;
-stack<char> buffer;
+std::stack<char> buffer;
 int items;
 
 void *producer(void *args) {
@@ -79,7 +77,7 @@ int main(int argc, char** argv) {
     }
     
     sem_init(&mutex, 0, 1);
-    sem_init(&empty, 0, items);
+    sem_init(&empty, 0, bufl);
     sem_init(&full, 0, 0);
     
     pthread_t produce[pt];
@@ -106,6 +104,6 @@ int main(int argc, char** argv) {
     while(buffer.size() > 0);
     
     printf("Complete. Press Enter to quit\n");
-    cin.get();
+    std::cin.get();
     return 0;
 }

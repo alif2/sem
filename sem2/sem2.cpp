@@ -5,15 +5,13 @@
 #include <pthread.h>
 #include <stack>
 #include <unistd.h>
-#include <ctime>
 #include "monitor.h"
 
-using namespace std;
-
+int items;
 monitor *mon;
 
 unsigned char randChar() {
-    srand(time(NULL));
+    srand(time(NULL) + rand());
     
     int i = rand() % 57 + 65;
     while(i > 90 && i < 97) {
@@ -26,10 +24,11 @@ unsigned char randChar() {
 void *producer(void *args) {
     unsigned long id = pthread_self();
 
-    while(1) {
+    while(1 && items > 0) {
         char c = randChar();
-        mon->mon_insert(c);
+        items--;
         
+        mon->mon_insert(c);
         printf("p:<%lu>, item: %c, at %d\n", id, c, 0);
     }
 }
@@ -38,14 +37,15 @@ void *consumer(void *args) {
     unsigned long id = pthread_self();
 
     while(1) {
-        char c = mon->mon_remove();
+        if(items < 1 && mon->size() < 1) return NULL;
         
+        char c = mon->mon_remove();
         printf("c:<%lu>, item: %c, at %d\n", id, c, 0);
     }
 }
 
 int main(int argc, char** argv) {
-    int i, bufl, pt, ct, items;
+    int i, bufl, pt, ct;
     
     while((i = getopt(argc, argv, ":b:c:i:p:")) != -1) {
         switch(i) {
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    mon = new monitor(items);
+    mon = new monitor(bufl);
     
     pthread_t produce[pt];
     pthread_t consume[ct];
@@ -89,11 +89,11 @@ int main(int argc, char** argv) {
     }
 
     // Wait for input to complete
-    //while(items > 0);
-    //while(buffer.size() > 0);
-    
+    while(items > 0);
+    while(mon->size() > 0);
+
     printf("Complete. Press Enter to quit\n");
-    cin.get();
+    std::cin.get();
     
     delete(mon);
     return 0;
