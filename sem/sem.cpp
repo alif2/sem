@@ -1,9 +1,9 @@
 #include <cstdlib>
-#include <stdio.h>
 #include <iostream>
-#include <semaphore.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include <stack>
+#include <stdio.h>
 #include <unistd.h>
 
 sem_t mutex, empty, full;
@@ -30,6 +30,7 @@ void *producer(void *args) {
         sem_post(&mutex);
         sem_post(&full);
         
+        // Item index always 0 due to stack implementation
         printf("p:<%lu>, item: %c, at %d\n", id, push, 0);
     }
 }
@@ -49,6 +50,7 @@ void *consumer(void *args) {
         sem_post(&mutex);
         sem_post(&empty);
         
+        // Item index always 0 due to stack implementation
         printf("c:<%lu>, item: %c, at %d\n", id, pop, 0);
     }
 }

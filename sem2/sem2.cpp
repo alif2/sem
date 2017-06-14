@@ -1,10 +1,11 @@
 #include <cstdlib>
-#include <stdio.h>
 #include <iostream>
-#include <semaphore.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include <stack>
+#include <stdio.h>
 #include <unistd.h>
+
 #include "monitor.h"
 
 int items;
